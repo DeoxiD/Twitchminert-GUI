@@ -1,224 +1,270 @@
-# 🎮 Twitchminert-GUI
+# Twitchminert-GUI
 
-**Advanced GUI Control Panel for Twitchminert & TwitchDropsMiner**
+**Advanced Hybrid Twitch Miner - Drops + Channel Points Automation**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![Flask 2.3+](https://img.shields.io/badge/Flask-2.3%2B-green.svg)](https://flask.palletsprojects.com/)
 [![Docker Supported](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://www.docker.com/)
 
-> A modern, user-friendly **web-based interface** for managing Twitch Channel Points automation with real-time dashboard, configuration wizard, analytics, and notifications.
+> Twitchminert-GUI ir moderns, lietotājiem draudzīgs **web-bazēts interfeiss** Twitch kanālu punktu automatizācijai ar reāllaika vadības paneļi, konfigurācijas vedni, analītiku un paziņojumiem.
 
 ---
 
-## ✨ Features
+## ✨ Funkcionalitāte
 
-### 📊 Dashboard
-- ✅ Real-time streamer status monitoring
-- ✅ Live channel points tracking
-- ✅ Session statistics and analytics
-- ✅ Recent betting activities
-- ✅ Visual performance indicators
+### 📊 Vadības panelis
+- ✅ Reāllaika strīmera statusa uzraudzīšana
+- ✅ Tiešraides kanāla punktu sliedzība
+- ✅ Sesijas statistika un analītika
+- ✅ Nesenie derības ieraksti
+- ✅ Vizuālie veiktspējas rādītāji
+- ✅ REST API galapunkti
 
-### ⚙️ Configuration Wizard
-- ✅ Step-by-step setup process
-- ✅ Twitch OAuth authentication
-- ✅ Automated follower list import
-- ✅ Customizable betting strategies (SMART, MOST_VOTED, HIGH_ODDS, PERCENTAGE)
-- ✅ Per-streamer settings configuration
-- ✅ Filter conditions and bet limits
+### ⚙️ Konfigurācijas vednis
+- ✅ Soli pa solim iestatīšanas process
+- ✅ Twitch OAuth autentifikācija
+- ✅ Automatizēts sekotāju saraksta imports
+- ✅ Pielāgojamas derības stratēģijas (SMART, MOST_VOTED, HIGH_ODDS, PERCENTAGE)
+- ✅ Uz sekotāju orientēti iestatījumi
+- ✅ Filtrēšanas nosacījumi un derības ierobežojumi
 
-### 🎰 Betting System
-- ✅ Multiple strategies support
-  - **SMART**: Intelligent decision-making based on odds and popularity
-  - **MOST_VOTED**: Follow the majority
-  - **HIGH_ODDS**: Bet on highest odds
-  - **PERCENTAGE**: Use displayed percentages
-- ✅ Customizable stake percentages
-- ✅ Stealth mode for realistic betting
-- ✅ Bet filtering and validation
+### 🎮 Derību sistēma
+- ✅ Vairākas stratēģijas atbalsts
+  - **SMART**: Intelektuāls lēmuma pieņemšana, pamatojoties uz izpeļņu un populāritāti
+  - **MOST_VOTED**: Sekot pūļa vairākumam
+  - **HIGH_ODDS**: Derības ar augstākajiem izpeļņiem
+  - **PERCENTAGE**: Automātiskā likme ar fiksētu procentu
+- ✅ Derību ierobežojumi un filtrēšana
+- ✅ Tūtoriales un galvenie attiecīgie ņu ieteikumi
 
-### 🔔 Notifications
-- ✅ Telegram bot integration
-- ✅ Discord webhook support
-- ✅ Custom webhook endpoints
-- ✅ Event-based notifications
-
-### 📈 Analytics
-- ✅ Interactive points history charts
-- ✅ Event annotations (streamer online/offline, wins/losses)
-- ✅ Performance metrics
-- ✅ Dark/Light theme toggle
-
-### 🔐 Security
-- ✅ Secure credential storage
-- ✅ OAuth2 authentication
-- ✅ HTTPS support
-- ✅ Session management
-
-### 🎯 Twitch Drops Mining
-- ✅ Automatic Twitch drops campaign discovery
-- ✅ Stream-less drop mining (bandwidth efficient)
-- ✅ Game priority and exclusion lists
-- ✅ Automatic channel switching
-- ✅ Campaign validation and filtering
+### 🌍 Papildus Funkcionalitāte
+- ✅ Daudzvalodu atbalsts (EN/LV)
+- ✅ Gaisa brāļu savienošana
+- ✅ Drošai paziņošanai
+- ✅ Detalizēta žurnalizācija
 
 ---
 
-## 🚀 Quick Start
+## 📦 Instalācija
 
-### Prerequisites
-- **Python 3.8+** ([Download](https://www.python.org/downloads/))
-- **pip** (Usually comes with Python)
-- **Git** ([Download](https://git-scm.com/))
+### Prasības
+- Python 3.8 vai jaunāks
+- pip vai conda
+- Git
+- Modernis pārlūks
 
-### Installation
+### Opcija 1: Python tiešā instalācija
 
-#### Option 1: Python Direct
 ```bash
+# Klonējiet repozitoriju
 git clone https://github.com/DeoxiD/Twitchminert-GUI.git
 cd Twitchminert-GUI
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# or
-venv\\Scripts\\activate  # Windows
 
+# Izveidojiet virtuālo vidi
+python -m venv venv
+
+# Aktivizējiet virtuālo vidi
+# Windows:
+venv\Scripts\activate
+# Linux/Mac:
+source venv/bin/activate
+
+# Instalējiet atkarības
 pip install -r requirements.txt
+
+# Palaidiet lietojumprogrammu
 python run.py
 ```
 
-#### Option 2: Windows EXE
+### Opcija 2: Windows EXE
+
 ```bash
+# Izveidojiet autonomu .exe failu
 python build_exe.py
-.\\dist\\Twitchminert-GUI.exe
+
+# Palaidiet
+.\dist\Twitchminert-GUI.exe
 ```
 
-#### Option 3: Docker
+### Opcija 3: Docker
+
 ```bash
-docker-compose up -d
-# Access at http://localhost:5000
+# Izveidojiet Docker attēlu
+docker build -t twitchminert-gui .
+
+# Palaidiet konteineri
+docker run -p 5000:5000 twitchminert-gui
 ```
 
 ---
 
-## 📋 Configuration
+## ⚙️ Konfigurācija
 
-### Environment Variables
-Create `.env` file:
+### Vides mainīgie
+
+Izveidojiet `.env` failu projekta saknes direktorijā ar šādiem mainīgajiem:
+
 ```env
+# Twitch API
+TWITCH_CLIENT_ID=jūsu-klienta-id
+TWITCH_CLIENT_SECRET=jūsu-klienta-noslēpums
+TWITCH_REDIRECT_URI=http://localhost:5000/callback
+
+# Flask
 FLASK_ENV=production
 FLASK_DEBUG=False
-SECRET_KEY=your-secret-key-here
-TWITCH_CLIENT_ID=your-client-id
-TWITCH_CLIENT_SECRET=your-client-secret
-TELEGRAM_BOT_TOKEN=optional-telegram-token
-DISCORD_WEBHOOK_URL=optional-discord-webhook
+SECRET_KEY=jūsu-slepens-atslega
+
+# Datu bāze
+DATABASE_URL=sqlite:///twitchminert.db
+
+# Paziņojumi (opcija)
+TELEGRAM_BOT_TOKEN=jūsu-bota-pilnvara
+DISCORD_WEBHOOK_URL=jūsu-discord-webhook
 ```
 
-### API Endpoints
-- `GET /api/status` - System status
-- `GET /api/config` - Get configuration
-- `POST /api/config` - Save configuration
-- `GET /api/streamers` - List streamers
-- `POST /api/streamers` - Add streamer
-- `GET /api/dashboard` - Dashboard data
-- `POST /api/test-notification` - Test notifications
+### OAuth Reģistrācija
+
+1. Dodieties uz [Twitch Developer Console](https://dev.twitch.tv/console/apps)
+2. Izveidojiet jaunu lietojumprogrammu
+3. Nokopējiet **Client ID** un **Client Secret**
+4. Ievietojiet `.env` failā
 
 ---
 
-## 📁 Project Structure
+## 🚀 Sākšana
+
+### Palaist caur termināli
+
+```bash
+# Aktivizējiet virtuālo vidi
+venv\Scripts\activate  # Windows
+
+# Palaidiet lietojumprogrammu
+python run.py
+
+# Pārlūkā atvērt
+http://localhost:5000
+```
+
+### Atrašanās vieta
+
+- **Vadības panelis**: http://localhost:5000/
+- **Iestatījumi**: http://localhost:5000/settings
+- **Žurnāls**: http://localhost:5000/logs
+- **API dokumentācija**: http://localhost:5000/api/docs
+
+---
+
+## 📁 Projekta Struktūra
 
 ```
 Twitchminert-GUI/
-├── .github/workflows/        # GitHub Actions CI/CD
-├── .vscode/                  # VS Code settings
-├── app.py                    # Flask application
-├── config.py                 # Configuration classes
-├── models.py                 # Database models
-├── utils.py                  # Utility functions
-├── drops_miner.py            # TwitchDropsMiner integration
-├── run.py                    # Startup script
-├── build_exe.py              # PyInstaller builder
-├── Dockerfile                # Docker container
-├── docker-compose.yml        # Docker Compose
-├── requirements.txt          # Python dependencies
-├── README.md                 # This file
-├── SETUP_WINDOWS.md          # Windows setup guide
-└── LICENSE                   # MIT License
+├── core/                    # Galvenās modulis
+│   ├── __init__.py
+│   ├── auth.py             # Twitch OAuth autentifikācija
+│   ├── drops.py            # Drops ieguves modulis
+│   ├── points.py           # Kanāla punktu modulis
+│   ├── scheduler.py        # Uzdevumu plānotājs
+│   └── twitch_client.py    # Twitch API klients
+├── web/                     # Web interfeiss
+│   ├── __init__.py
+│   ├── app.py              # Flask lietojumprogramma
+│   ├── routes.py           # API maršruti
+│   ├── templates/
+│   │   └── index.html      # Galvenā lapā
+│   └── static/
+│       ├── style.css       # Stili
+│       └── script.js       # Skriptošana
+├── .env.example            # Vides maiņības paraugs
+├── requirements.txt        # Python atkarības
+├── run.py                  # Ieejas punkts
+├── config.py               # Konfigurācijas klasės
+├── build_exe.py            # Windows EXE veidošana
+└── README.md               # Šī dokumentācija
 ```
 
 ---
 
-## 🛠️ Development
+## 🔌 API Galapunkti
 
-### Running in Debug Mode
+### Status
 ```bash
-FLASK_ENV=development python run.py
+GET /api/status
+# Atgriež maineris status
 ```
 
-### Running Tests
+### Konfigurācija
 ```bash
-pytest tests/ -v
+GET /api/config
+# Iegūst pašreizējos iestatījumus
+
+POST /api/config
+# Saglabā jaunus iestatījumus
 ```
 
-### Building Docker Image
+### Strīmeri
 ```bash
-docker build -t twitchminert-gui:latest .
-docker run -p 5000:5000 twitchminert-gui:latest
+GET /api/streamers
+# Saraksts ar visiem strīmēriem
+
+POST /api/streamers
+# Pievieno jaunu strīmeri
+```
+
+### Vadības
+```bash
+POST /api/start
+# Palaist maineris
+
+POST /api/stop
+# Apturēt maineris
 ```
 
 ---
 
-## 🤝 Contributing
+## 🛠️ Attīstība
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+### Vietējā iestatīšana
 
----
+```bash
+# Instalējiet attīstības atkarības
+pip install -r requirements-dev.txt
 
-## ⚠️ Disclaimer
+# Palaidiet testus
+python -m pytest
 
-This project is an unofficial tool and comes with no warranty. Use at your own risk. Twitch may restrict or ban accounts using this software. The authors are not responsible for any consequences.
-
----
-
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/DeoxiD/Twitchminert-GUI/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/DeoxiD/Twitchminert-GUI/discussions)
+# Palaist linter
+flake8 . --count --select=E9,F63,F7,F82 --show-source
+```
 
 ---
 
-## 🔗 Related Projects
+## 📜 Licenzija
 
-- [Twitchminert](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) - Original Twitch Channel Points Miner
-- [TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner) - Advanced Twitch drops mining
-- [Twitch-Channel-Points-Miner](https://github.com/gottagofaster236/Twitch-Channel-Points-Miner) - Alternative implementation
+MIT License - Skatiet [LICENSE](LICENSE) failu detalizētai informācijai.
 
 ---
 
-## 📄 License
+## 🤝 Ieguldījums
 
-MIT License - See [LICENSE](LICENSE) file for details
-
----
-
-## 📞 Credits
-
-**Developed by**: [@DeoxiD](https://github.com/DeoxiD)
-
-**Based on**:
-- [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) by [@rdavydov](https://github.com/rdavydov)
-- [TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner) by [@DevilXD](https://github.com/DevilXD)
+Ieguldījumi ir svārsti! Skatiet [CONTRIBUTING.md](CONTRIBUTING.md) norādījumi.
 
 ---
 
-**Version**: 2.0.0 (Hybrid Mining)  
-**Last Updated**: January 16, 2026  
-**Status**: ✅ Active Development
+## ⚠️ Atrunas
+
+- Šī lietojumprogramma ir neatkarīga no Twitch Inc.
+- Jūs esat atbildīgs par Twitch Pakalpojuma Noteikumu ievērošanu
+- Autori nav atbildīgi par jebkādiem problēmām vai ban riskiem
 
 ---
 
-<div align="center">
-  <p><strong>Made with ❤️ for the Twitch community</strong></p>
-  <p><a href="https://github.com/DeoxiD/Twitchminert-GUI">⭐ Star us on GitHub!</a></p>
-</div>
+## 📞 Atbalsts
+
+Jautājumi vai problēmas? Atvērt [GitHub Issues](https://github.com/DeoxiD/Twitchminert-GUI/issues)
+
+---
+
+**Pēdējais atjauninājums**: 2026. gada janvāris
