@@ -2,26 +2,28 @@
 # -*- coding: utf-8 -*-
 """
 Twitchminert-GUI - Advanced GUI Control Panel for Twitchminert
-Main Flask Application
+Main Flask Application with OAuth2 Integration
 """
-
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, create_access_token
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 import logging
 
 # Import local modules
 from config import config
 from models import db
-from utils import token_required
+from core.auth import TwitchAuthManager
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Global auth manager instance
+auth_manager = None
+
 
 def create_app(config_name='development'):
     """Application factory function"""
@@ -30,63 +32,98 @@ def create_app(config_name='development'):
     # Load configuration
     app.config.from_object(config.get(config_name, config['default']))
     
+    # Ensure required config values exist
+    app.config.setdefault('SECRET_KEY', os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production'))
+    app.config.setdefault('TWITCH_CLIENT_ID', os.environ.get('TWITCH_CLIENT_ID', ''))
+    app.config.setdefault('TWITCH_CLIENT_SECRET', os.environ.get('TWITCH_CLIENT_SECRET', ''))
+    app.config.setdefault('TWITCH_REDIRECT_URI', os.environ.get('TWITCH_REDIRECT_URI', 'http://localhost:5000/auth/callback'))
+    
     # Initialize extensions
     db.init_app(app)
     CORS(app)
-    JWTManager(app)
+    
+    # Initialize OAuth manager
+    global auth_manager
+    data_dir = Path.cwd() / 'data'
+    data_dir.mkdir(exist_ok=True)
+    
+    auth_manager = TwitchAuthManager(
+        client_id=app.config['TWITCH_CLIENT_ID'],
+        client_secret=app.config['TWITCH_CLIENT_SECRET'],
+        redirect_uri=app.config['TWITCH_REDIRECT_URI'],
+        data_dir=data_dir
+    )
+    
+    # Try to load existing session
+    auth_manager.load_session()
     
     # Create database tables
     with app.app_context():
         db.create_all()
     
-    # Register blueprints
-    register_blueprints(app)
-    register_routes(app)
+    # Register routes
+    register_api_routes(app)
+    register_auth_routes(app)
+    register_web_routes(app)
     
     return app
 
-def register_blueprints(app):
-    """Register Flask blueprints"""
-    # Configuration endpoints
+
+def register_api_routes(app):
+    """Register API endpoints"""
+    
     @app.route('/api/config', methods=['GET'])
-    @token_required
     def get_config():
+        """Get configuration"""
+        if not auth_manager.is_authenticated():
+            return jsonify({'status': 'error', 'message': 'Not authenticated'}), 401
+        
         try:
             return jsonify({'status': 'success', 'message': 'Configuration retrieved'}), 200
         except Exception as e:
             return jsonify({'status': 'error', 'message': str(e)}), 500
     
     @app.route('/api/config', methods=['POST'])
-    @token_required
     def save_config():
+        """Save configuration"""
+        if not auth_manager.is_authenticated():
+            return jsonify({'status': 'error', 'message': 'Not authenticated'}), 401
+        
         try:
             data = request.get_json()
             return jsonify({'status': 'success', 'message': 'Configuration saved'}), 200
         except Exception as e:
             return jsonify({'status': 'error', 'message': str(e)}), 500
     
-    # Streamer endpoints
     @app.route('/api/streamers', methods=['GET'])
-    @token_required
     def get_streamers():
+        """Get streamers list"""
+        if not auth_manager.is_authenticated():
+            return jsonify({'status': 'error', 'message': 'Not authenticated'}), 401
+        
         try:
             return jsonify({'status': 'success', 'streamers': []}), 200
         except Exception as e:
             return jsonify({'status': 'error', 'message': str(e)}), 500
     
     @app.route('/api/streamers', methods=['POST'])
-    @token_required
     def add_streamer():
+        """Add new streamer"""
+        if not auth_manager.is_authenticated():
+            return jsonify({'status': 'error', 'message': 'Not authenticated'}), 401
+        
         try:
             data = request.get_json()
             return jsonify({'status': 'success', 'message': 'Streamer added'}), 201
         except Exception as e:
             return jsonify({'status': 'error', 'message': str(e)}), 500
     
-    # Dashboard endpoint
     @app.route('/api/dashboard', methods=['GET'])
-    @token_required
     def get_dashboard():
+        """Get dashboard data"""
+        if not auth_manager.is_authenticated():
+            return jsonify({'status': 'error', 'message': 'Not authenticated'}), 401
+        
         try:
             dashboard_data = {
                 'status': 'success',
@@ -100,63 +137,120 @@ def register_blueprints(app):
         except Exception as e:
             return jsonify({'status': 'error', 'message': str(e)}), 500
     
-    # Status endpoint
+    @app.route('/api/user', methods=['GET'])
+    def get_user():
+        """Get authenticated user information"""
+        if not auth_manager.is_authenticated():
+            return jsonify({'status': 'error', 'message': 'Not authenticated'}), 401
+        
+        try:
+            user_info = auth_manager.get_user_info()
+            if user_info:
+                return jsonify({
+                    'status': 'success',
+                    'user': user_info
+                }), 200
+            else:
+                return jsonify({'status': 'error', 'message': 'Failed to get user info'}), 500
+        except Exception as e:
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+    
     @app.route('/api/status', methods=['GET'])
     def get_status():
+        """System status endpoint"""
         try:
-            return jsonify({'status': 'online', 'version': '2.0.0'}), 200
+            return jsonify({
+                'status': 'online',
+                'version': '2.0.0',
+                'authenticated': auth_manager.is_authenticated()
+            }), 200
         except Exception as e:
             return jsonify({'status': 'error', 'message': str(e)}), 500
 
-def register_routes(app):
-    """Register main routes"""
+
+def register_auth_routes(app):
+    """Register authentication routes"""
+    
+    @app.route('/auth/login', methods=['GET'])
+    def login():
+        """Initiate OAuth2 login flow"""
+        try:
+            # Check if already authenticated
+            if auth_manager.is_authenticated():
+                return redirect('/')
+            
+            # Get OAuth authorization URL
+            auth_url = auth_manager.get_auth_url()
+            return redirect(auth_url)
+        except Exception as e:
+            logger.error(f'Login error: {str(e)}')
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+    
+    @app.route('/auth/callback', methods=['GET'])
+    def auth_callback():
+        """Handle OAuth2 callback"""
+        try:
+            code = request.args.get('code')
+            state = request.args.get('state')
+            error = request.args.get('error')
+            
+            if error:
+                logger.error(f'OAuth error: {error}')
+                return render_template('index.html', error='Authentication failed')
+            
+            if not code or not state:
+                return render_template('index.html', error='Invalid callback parameters')
+            
+            # Exchange code for tokens
+            if auth_manager.handle_callback(code, state):
+                session['authenticated'] = True
+                logger.info('OAuth authentication successful')
+                return redirect('/')
+            else:
+                return render_template('index.html', error='Failed to authenticate')
+        except Exception as e:
+            logger.error(f'Callback error: {str(e)}')
+            return render_template('index.html', error='Authentication error')
+    
+    @app.route('/auth/logout', methods=['GET', 'POST'])
+    def logout():
+        """Logout and revoke tokens"""
+        try:
+            auth_manager.revoke_token()
+            session.clear()
+            logger.info('User logged out')
+            return redirect('/')
+        except Exception as e:
+            logger.error(f'Logout error: {str(e)}')
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+    
+    @app.route('/auth/status', methods=['GET'])
+    def auth_status():
+        """Check authentication status"""
+        return jsonify({
+            'authenticated': auth_manager.is_authenticated()
+        }), 200
+
+
+def register_web_routes(app):
+    """Register web page routes"""
     
     @app.route('/', methods=['GET'])
     def index():
         """Main page"""
         try:
-            return render_template('index.html')
+            authenticated = auth_manager.is_authenticated()
+            user_info = None
+            
+            if authenticated:
+                user_info = auth_manager.get_user_info()
+            
+            return render_template('index.html', 
+                                 authenticated=authenticated, 
+                                 user=user_info)
         except Exception as e:
             logger.error(f'Error loading index: {str(e)}')
-            return jsonify({'status': 'error', 'message': str(e)}), 500
-    
-    @app.route('/auth/login', methods=['POST'])
-    def login():
-        """User login endpoint"""
-        try:
-            data = request.get_json()
-            username = data.get('username')
-            password = data.get('password')
-            
-            # TODO: Implement actual authentication
-            if username and password:
-                access_token = create_access_token(identity=username)
-                session['user_id'] = username
-                return jsonify({
-                    'status': 'success',
-                    'access_token': access_token,
-                    'message': 'Login successful'
-                }), 200
-            else:
-                return jsonify({
-                    'status': 'error',
-                    'message': 'Invalid credentials'
-                }), 401
-        except Exception as e:
-            logger.error(f'Login error: {str(e)}')
-            return jsonify({'status': 'error', 'message': str(e)}), 500
-    
-    @app.route('/auth/logout', methods=['POST'])
-    def logout():
-        """User logout endpoint"""
-        try:
-            session.clear()
-            return jsonify({
-                'status': 'success',
-                'message': 'Logout successful'
-            }), 200
-        except Exception as e:
-            return jsonify({'status': 'error', 'message': str(e)}), 500
+            return render_template('index.html', error=str(e))
     
     @app.route('/health', methods=['GET'])
     def health_check():
@@ -175,6 +269,7 @@ def register_routes(app):
     def internal_error(error):
         logger.error(f'Internal server error: {str(error)}')
         return jsonify({'status': 'error', 'message': 'Internal server error'}), 500
+
 
 if __name__ == '__main__':
     # Get configuration from environment
