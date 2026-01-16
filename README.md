@@ -275,3 +275,34 @@ Based on:
 
 **Last Updated**: January 16, 2026
 **Version**: 1.0.0 (Beta)
+
+
+### 🎯 Twitch Drops Mining
+
+- Automatic Twitch drops campaign discovery
+- Stream-less drop mining (bandwidth efficient)
+- Game priority and exclusion lists
+- Sharded websocket connection for 199+ channels
+- Automatic channel switching
+- Drop claims and inventory management
+- Campaign validation and drop campaign filtering
+
+## 🔗 Related Projects
+
+- [TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner) - Advanced Twitch drops mining
+- [Twitchminert](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) - Original Twitch Channel Points Miner
+
+## 🚀 New v2 Features
+
+- **Hybrid Mining System**: Now supports both Channel Points AND Drops mining in one unified interface
+- **Drops Dashboard**: Real-time drops campaign tracking and management
+- **Async/Await Operations**: Fully asynchronous operations for better performance
+- **Modern Web Interface**: Flask + Vue.js modern responsive UI
+- **Rest API**: Full REST API for all operations
+- **Multi-Account Support**: Manage multiple accounts simultaneously
+- **WebSocket Integration**: Real-time updates and streaming
+
+---
+
+**Last Updated**: January 16, 2026  
+**Version**: 2.0.0 (Hybrid Mining)
