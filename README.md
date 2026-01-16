@@ -1,308 +1,224 @@
 # 🎮 Twitchminert-GUI
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-brightgreen)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-2.0%2B-blue)](https://flask.palletsprojects.com/)
-[![Vue.js](https://img.shields.io/badge/Vue-3.0%2B-brightgreen)](https://vuejs.org/)
+**Advanced GUI Control Panel for Twitchminert & TwitchDropsMiner**
 
-**Advanced GUI Control Panel for Twitchminert** - A modern, user-friendly web-based interface for managing Twitch Channel Points automation with configuration wizard, real-time dashboard, analytics, and notifications.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![Flask 2.3+](https://img.shields.io/badge/Flask-2.3%2B-green.svg)](https://flask.palletsprojects.com/)
+[![Docker Supported](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://www.docker.com/)
 
-## 🌟 Features
+> A modern, user-friendly **web-based interface** for managing Twitch Channel Points automation with real-time dashboard, configuration wizard, analytics, and notifications.
+
+---
+
+## ✨ Features
 
 ### 📊 Dashboard
-- Real-time streamer status monitoring
-- Live channel points tracking
-- Session statistics and analytics
-- Recent betting activities
-- Visual performance indicators
+- ✅ Real-time streamer status monitoring
+- ✅ Live channel points tracking
+- ✅ Session statistics and analytics
+- ✅ Recent betting activities
+- ✅ Visual performance indicators
 
 ### ⚙️ Configuration Wizard
-- Step-by-step setup process
-- Twitch OAuth authentication
-- Automated follower list import
-- Customizable betting strategies (SMART, MOST_VOTED, HIGH_ODDS, PERCENTAGE)
-- Per-streamer settings configuration
-- Filter conditions and bet limits
+- ✅ Step-by-step setup process
+- ✅ Twitch OAuth authentication
+- ✅ Automated follower list import
+- ✅ Customizable betting strategies (SMART, MOST_VOTED, HIGH_ODDS, PERCENTAGE)
+- ✅ Per-streamer settings configuration
+- ✅ Filter conditions and bet limits
 
 ### 🎰 Betting System
-- Multiple strategies support:
+- ✅ Multiple strategies support
   - **SMART**: Intelligent decision-making based on odds and popularity
   - **MOST_VOTED**: Follow the majority
   - **HIGH_ODDS**: Bet on highest odds
   - **PERCENTAGE**: Use displayed percentages
-- Customizable stake percentages
-- Stealth mode for realistic betting
-- Bet filtering and validation
+- ✅ Customizable stake percentages
+- ✅ Stealth mode for realistic betting
+- ✅ Bet filtering and validation
 
 ### 🔔 Notifications
-- Telegram bot integration
-- Discord webhook support
-- Custom webhook endpoints
-- Event-based notifications
-- Selective event filtering
+- ✅ Telegram bot integration
+- ✅ Discord webhook support
+- ✅ Custom webhook endpoints
+- ✅ Event-based notifications
 
 ### 📈 Analytics
-- Interactive points history charts
-- Event annotations (streamer online/offline, wins/losses)
-- Performance metrics
-- Dark/Light theme toggle
-- Time range selection
+- ✅ Interactive points history charts
+- ✅ Event annotations (streamer online/offline, wins/losses)
+- ✅ Performance metrics
+- ✅ Dark/Light theme toggle
 
 ### 🔐 Security
-- Secure credential storage
-- OAuth2 authentication
-- HTTPS support
-- Session management
-- Cookie-based authentication
+- ✅ Secure credential storage
+- ✅ OAuth2 authentication
+- ✅ HTTPS support
+- ✅ Session management
+
+### 🎯 Twitch Drops Mining
+- ✅ Automatic Twitch drops campaign discovery
+- ✅ Stream-less drop mining (bandwidth efficient)
+- ✅ Game priority and exclusion lists
+- ✅ Automatic channel switching
+- ✅ Campaign validation and filtering
+
+---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.8 or higher
-- Node.js 14+ (for frontend development)
-- pip or conda
+- **Python 3.8+** ([Download](https://www.python.org/downloads/))
+- **pip** (Usually comes with Python)
+- **Git** ([Download](https://git-scm.com/))
 
 ### Installation
 
-#### 1. Clone the repository
+#### Option 1: Python Direct
 ```bash
 git clone https://github.com/DeoxiD/Twitchminert-GUI.git
 cd Twitchminert-GUI
-```
-
-#### 2. Backend Setup
-```bash
-# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Linux/Mac
+# or
+venv\\Scripts\\activate  # Windows
 
-# Install dependencies
 pip install -r requirements.txt
+python run.py
 ```
 
-#### 3. Frontend Setup (Optional for development)
+#### Option 2: Windows EXE
 ```bash
-cd frontend
-npm install
-npm run build
+python build_exe.py
+.\\dist\\Twitchminert-GUI.exe
 ```
 
-#### 4. Run the application
+#### Option 3: Docker
 ```bash
-python app.py
+docker-compose up -d
+# Access at http://localhost:5000
 ```
 
-The application will be available at `http://localhost:5000`
+---
 
 ## 📋 Configuration
 
 ### Environment Variables
-Create a `.env` file in the root directory:
-
+Create `.env` file:
 ```env
-FLASK_ENV=development
-FLASK_DEBUG=True
+FLASK_ENV=production
+FLASK_DEBUG=False
 SECRET_KEY=your-secret-key-here
-TWITCH_CLIENT_ID=your-twitch-client-id
-TWITCH_CLIENT_SECRET=your-twitch-client-secret
-TELEGRAM_BOT_TOKEN=your-telegram-token
-DISCORD_WEBHOOK_URL=your-discord-webhook
+TWITCH_CLIENT_ID=your-client-id
+TWITCH_CLIENT_SECRET=your-client-secret
+TELEGRAM_BOT_TOKEN=optional-telegram-token
+DISCORD_WEBHOOK_URL=optional-discord-webhook
 ```
 
 ### API Endpoints
+- `GET /api/status` - System status
+- `GET /api/config` - Get configuration
+- `POST /api/config` - Save configuration
+- `GET /api/streamers` - List streamers
+- `POST /api/streamers` - Add streamer
+- `GET /api/dashboard` - Dashboard data
+- `POST /api/test-notification` - Test notifications
 
-#### Configuration
-- `GET /api/config` - Get current configuration
-- `POST /api/config` - Update configuration
-- `POST /api/config/validate` - Validate configuration
-- `GET /api/export-config` - Export config as JSON
-- `POST /api/import-config` - Import config from JSON
-
-#### Streamers
-- `GET /api/streamers` - Get all streamers
-- `POST /api/streamers` - Add new streamer
-- `PUT /api/streamers/<username>` - Update streamer settings
-- `DELETE /api/streamers/<username>` - Remove streamer
-
-#### Status & Testing
-- `GET /api/status` - Get system status
-- `POST /api/test-notification` - Test notification sending
-
-## 🎯 Usage
-
-### First Time Setup
-1. Open http://localhost:5000 in your browser
-2. Click "New Configuration" to start the wizard
-3. Enter your Twitch credentials
-4. Select streamers to monitor (manually or import from followers)
-5. Configure betting strategies and preferences
-6. Set up notifications (optional)
-7. Review and save configuration
-
-### Managing Configurations
-- Save multiple configurations
-- Import/Export JSON configs
-- Load previous configurations
-- Real-time validation
-
-### Dashboard Features
-- Monitor active streamers in real-time
-- View betting history
-- Track points earned
-- See active sessions
-- Download logs
+---
 
 ## 📁 Project Structure
 
 ```
 Twitchminert-GUI/
-├── app.py                 # Flask application
-├── requirements.txt       # Python dependencies
-├── .env.example          # Environment variables template
-├── configs/              # Configuration storage
-│   └── default_config.json
-├── static/               # Static files (CSS, JS)
-│   ├── css/
-│   └── js/
-├── templates/            # HTML templates
-│   └── index.html
-├── logs/                 # Application logs
-└── frontend/            # Vue.js frontend (optional)
-    ├── src/
-    ├── public/
-    └── package.json
+├── .github/workflows/        # GitHub Actions CI/CD
+├── .vscode/                  # VS Code settings
+├── app.py                    # Flask application
+├── config.py                 # Configuration classes
+├── models.py                 # Database models
+├── utils.py                  # Utility functions
+├── drops_miner.py            # TwitchDropsMiner integration
+├── run.py                    # Startup script
+├── build_exe.py              # PyInstaller builder
+├── Dockerfile                # Docker container
+├── docker-compose.yml        # Docker Compose
+├── requirements.txt          # Python dependencies
+├── README.md                 # This file
+├── SETUP_WINDOWS.md          # Windows setup guide
+└── LICENSE                   # MIT License
 ```
+
+---
 
 ## 🛠️ Development
 
 ### Running in Debug Mode
 ```bash
-FLASK_ENV=development python app.py
+FLASK_ENV=development python run.py
 ```
 
-### Frontend Development
+### Running Tests
 ```bash
-cd frontend
-npm run dev
+pytest tests/ -v
 ```
 
-### Testing
+### Building Docker Image
 ```bash
-pytest tests/
+docker build -t twitchminert-gui:latest .
+docker run -p 5000:5000 twitchminert-gui:latest
 ```
 
-## 📚 API Documentation
+---
 
-### Configuration Object
-```json
-{
-  "twitch": {
-    "username": "string",
-    "password": "string",
-    "claim_drops_startup": boolean
-  },
-  "priority": ["STREAK", "DROPS", "ORDER"],
-  "streamer_settings": {
-    "make_predictions": boolean,
-    "follow_raid": boolean,
-    "claim_drops": boolean,
-    "watch_streak": boolean,
-    "community_goals": boolean,
-    "chat": "ONLINE|OFFLINE|ALWAYS|NEVER"
-  },
-  "bet_settings": {
-    "strategy": "SMART|MOST_VOTED|HIGH_ODDS|PERCENTAGE",
-    "percentage": number,
-    "percentage_gap": number,
-    "max_points": number,
-    "stealth_mode": boolean,
-    "delay_mode": "FROM_START|FROM_END|PERCENTAGE",
-    "delay": number,
-    "minimum_points": number
-  },
-  "streamers": [{"username": "string", "settings": {}}],
-  "blacklist": ["string"]
-}
-```
+## 🤝 Contributing
 
-## 🔗 Integration with Twitchminert
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
-This GUI generates a `run.py` configuration file compatible with the original Twitchminert script:
-
-```bash
-python run.py
-```
-
-The generated configuration includes:
-- All betting strategies
-- Streamer lists and settings
-- Notification integrations
-- Priority-based execution
-- Analytics configuration
+---
 
 ## ⚠️ Disclaimer
 
-This project is an unofficial tool and comes with no warranty. Use at your own risk. Twitch may restrict or ban accounts using automation tools. This is for educational purposes only.
+This project is an unofficial tool and comes with no warranty. Use at your own risk. Twitch may restrict or ban accounts using this software. The authors are not responsible for any consequences.
+
+---
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/DeoxiD/Twitchminert-GUI/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/DeoxiD/Twitchminert-GUI/discussions)
+
+---
+
+## 🔗 Related Projects
+
+- [Twitchminert](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) - Original Twitch Channel Points Miner
+- [TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner) - Advanced Twitch drops mining
+- [Twitch-Channel-Points-Miner](https://github.com/gottagofaster236/Twitch-Channel-Points-Miner) - Alternative implementation
+
+---
 
 ## 📄 License
 
 MIT License - See [LICENSE](LICENSE) file for details
 
-## 🤝 Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## 🙋 Support
-
-- Issues: [GitHub Issues](https://github.com/DeoxiD/Twitchminert-GUI/issues)
-- Discussions: [GitHub Discussions](https://github.com/DeoxiD/Twitchminert-GUI/discussions)
-- Original Twitchminert: [GitHub](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)
-
-## 🔗 Related Projects
-
-- [Twitchminert](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) - Original Twitch Channel Points Miner
-- [Twitch-Channel-Points-Miner](https://github.com/gottagofaster236/Twitch-Channel-Points-Miner)
+---
 
 ## 📞 Credits
 
-Developed by [@DeoxiD](https://github.com/DeoxiD)
+**Developed by**: [@DeoxiD](https://github.com/DeoxiD)
 
-Based on:
+**Based on**:
 - [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) by [@rdavydov](https://github.com/rdavydov)
-- [TwitchAutoCollect-AutoBet](https://github.com/ClementRoyer/TwitchAutoCollect-AutoBet) by [@ClementRoyer](https://github.com/ClementRoyer)
+- [TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner) by [@DevilXD](https://github.com/DevilXD)
 
 ---
 
-**Last Updated**: January 16, 2026
-**Version**: 1.0.0 (Beta)
-
-
-### 🎯 Twitch Drops Mining
-
-- Automatic Twitch drops campaign discovery
-- Stream-less drop mining (bandwidth efficient)
-- Game priority and exclusion lists
-- Sharded websocket connection for 199+ channels
-- Automatic channel switching
-- Drop claims and inventory management
-- Campaign validation and drop campaign filtering
-
-## 🔗 Related Projects
-
-- [TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner) - Advanced Twitch drops mining
-- [Twitchminert](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) - Original Twitch Channel Points Miner
-
-## 🚀 New v2 Features
-
-- **Hybrid Mining System**: Now supports both Channel Points AND Drops mining in one unified interface
-- **Drops Dashboard**: Real-time drops campaign tracking and management
-- **Async/Await Operations**: Fully asynchronous operations for better performance
-- **Modern Web Interface**: Flask + Vue.js modern responsive UI
-- **Rest API**: Full REST API for all operations
-- **Multi-Account Support**: Manage multiple accounts simultaneously
-- **WebSocket Integration**: Real-time updates and streaming
-
----
-
+**Version**: 2.0.0 (Hybrid Mining)  
 **Last Updated**: January 16, 2026  
-**Version**: 2.0.0 (Hybrid Mining)
+**Status**: ✅ Active Development
+
+---
+
+<div align="center">
+  <p><strong>Made with ❤️ for the Twitch community</strong></p>
+  <p><a href="https://github.com/DeoxiD/Twitchminert-GUI">⭐ Star us on GitHub!</a></p>
+</div>
