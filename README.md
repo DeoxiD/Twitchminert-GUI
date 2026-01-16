@@ -247,3 +247,50 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
 Have questions or issues? Open a [GitHub Issue](https://github.com/DeoxiD/Twitchminert-GUI/issues)
 
 **Last Updated**: January 2026
+
+## 📋 Changelog
+
+### v0.0.1-alpha (January 17, 2026) - Initial Release
+
+#### Added
+- ✅ Complete OAuth2 authentication system with Flask integration
+- ✅ Database operations for all models (User, Streamer, Settings, Bet, Drop)
+- ✅ Web interface with dashboard, settings, and logs pages
+- ✅ Flask routes and REST API endpoints for miner control
+- ✅ Multi-stage Dockerfile for containerized deployment
+- ✅ Docker Compose configuration for service orchestration
+- ✅ GitHub Actions workflow for automated Python testing
+- ✅ PyInstaller build script for Windows EXE creation
+- ✅ Comprehensive configuration examples with .env.example
+- ✅ Python linting and formatting settings (VS Code integration)
+- ✅ Enhanced documentation in English (README, SETUP_WINDOWS)
+
+#### Core Features
+- 🎮 Drops mining module with campaign discovery and automatic channel switching
+- 💰 Channel points module with real-time tracking and automated claiming
+- 🔐 Twitch authentication manager with token refresh
+- ⚙️ Task scheduler for background operations
+- 📊 Twitch API client integration
+- 🗃️ SQLite database with comprehensive data models
+
+#### Known Issues
+- Alpha release - may contain bugs
+- Limited error handling in some modules
+- Basic logging implementation
+
+### Next Planned Features
+- Windows .bat launch scripts
+- Enhanced error handling and logging
+- Automated testing suite
+- Additional betting strategies
+- Improved notification system
+
+---
+
+## 🚀 Releases
+
+View all releases on the [GitHub Releases page](https://github.com/DeoxiD/Twitchminert-GUI/releases)
+
+**Latest Release:** [v0.0.1-alpha](https://github.com/DeoxiD/Twitchminert-GUI/releases/tag/v0.0.1-alpha) - Initial Alpha Release
+
+
