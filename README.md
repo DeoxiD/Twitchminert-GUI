@@ -2,269 +2,248 @@
 
 **Advanced Hybrid Twitch Miner - Drops + Channel Points Automation**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
-[![Flask 2.3+](https://img.shields.io/badge/Flask-2.3%2B-green.svg)](https://flask.palletsprojects.com/)
-[![Docker Supported](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/) [![Flask 2.3+](https://img.shields.io/badge/Flask-2.3%2B-green.svg)](https://flask.palletsprojects.com/) [![Docker Supported](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://www.docker.com/)
 
-> Twitchminert-GUI ir moderns, lietotājiem draudzīgs **web-bazēts interfeiss** Twitch kanālu punktu automatizācijai ar reāllaika vadības paneļi, konfigurācijas vedni, analītiku un paziņojumiem.
+> Twitchminert-GUI is a modern, user-friendly **web-based interface** for Twitch channel points automation with real-time dashboard, configuration wizard, analytics, and notifications.
 
----
+## ✨ Features
 
-## ✨ Funkcionalitāte
+### 📊 Dashboard
 
-### 📊 Vadības panelis
-- ✅ Reāllaika strīmera statusa uzraudzīšana
-- ✅ Tiešraides kanāla punktu sliedzība
-- ✅ Sesijas statistika un analītika
-- ✅ Nesenie derības ieraksti
-- ✅ Vizuālie veiktspējas rādītāji
-- ✅ REST API galapunkti
+- ✅ Real-time streamer status monitoring
+- ✅ Live channel points tracking
+- ✅ Session statistics and analytics
+- ✅ Recent bet history
+- ✅ Visual performance metrics
+- ✅ REST API endpoints
 
-### ⚙️ Konfigurācijas vednis
-- ✅ Soli pa solim iestatīšanas process
-- ✅ Twitch OAuth autentifikācija
-- ✅ Automatizēts sekotāju saraksta imports
-- ✅ Pielāgojamas derības stratēģijas (SMART, MOST_VOTED, HIGH_ODDS, PERCENTAGE)
-- ✅ Uz sekotāju orientēti iestatījumi
-- ✅ Filtrēšanas nosacījumi un derības ierobežojumi
+### ⚙️ Configuration Wizard
 
-### 🎮 Derību sistēma
-- ✅ Vairākas stratēģijas atbalsts
-  - **SMART**: Intelektuāls lēmuma pieņemšana, pamatojoties uz izpeļņu un populāritāti
-  - **MOST_VOTED**: Sekot pūļa vairākumam
-  - **HIGH_ODDS**: Derības ar augstākajiem izpeļņiem
-  - **PERCENTAGE**: Automātiskā likme ar fiksētu procentu
-- ✅ Derību ierobežojumi un filtrēšana
-- ✅ Tūtoriales un galvenie attiecīgie ņu ieteikumi
+- ✅ Step-by-step setup process
+- ✅ Twitch OAuth authentication
+- ✅ Automated followed channels import
+- ✅ Customizable betting strategies (SMART, MOST_VOTED, HIGH_ODDS, PERCENTAGE)
+- ✅ Follower-oriented settings
+- ✅ Filtering conditions and betting limits
 
-### 🌍 Papildus Funkcionalitāte
-- ✅ Daudzvalodu atbalsts (EN/LV)
-- ✅ Gaisa brāļu savienošana
-- ✅ Drošai paziņošanai
-- ✅ Detalizēta žurnalizācija
+### 🎮 Betting System
 
----
+- ✅ Multiple strategy support
+  - **SMART**: Intelligent decision making based on odds and popularity
+  - **MOST_VOTED**: Follow the crowd majority
+  - **HIGH_ODDS**: Bet on the highest odds
+  - **PERCENTAGE**: Automatic betting with fixed percentage
+- ✅ Bet limits and filtering
+- ✅ Tutorials and relevant recommendations
 
-## 📦 Instalācija
+### 🌍 Additional Features
 
-### Prasības
-- Python 3.8 vai jaunāks
-- pip vai conda
+- ✅ Multi-language support (EN/LV)
+- ✅ Discord integration
+- ✅ Telegram notifications
+- ✅ Detailed logging
+
+## 📦 Installation
+
+### Requirements
+
+- Python 3.8 or newer
+- pip or conda
 - Git
-- Modernis pārlūks
+- Modern browser
 
-### Opcija 1: Python tiešā instalācija
+### Option 1: Python Direct Installation
 
 ```bash
-# Klonējiet repozitoriju
+# Clone the repository
 git clone https://github.com/DeoxiD/Twitchminert-GUI.git
 cd Twitchminert-GUI
 
-# Izveidojiet virtuālo vidi
+# Create virtual environment
 python -m venv venv
 
-# Aktivizējiet virtuālo vidi
+# Activate virtual environment
 # Windows:
 venv\Scripts\activate
 # Linux/Mac:
 source venv/bin/activate
 
-# Instalējiet atkarības
+# Install dependencies
 pip install -r requirements.txt
 
-# Palaidiet lietojumprogrammu
+# Run the application
 python run.py
 ```
 
-### Opcija 2: Windows EXE
+### Option 2: Windows EXE
 
 ```bash
-# Izveidojiet autonomu .exe failu
+# Build standalone .exe file
 python build_exe.py
 
-# Palaidiet
+# Run
 .\dist\Twitchminert-GUI.exe
 ```
 
-### Opcija 3: Docker
+### Option 3: Docker
 
 ```bash
-# Izveidojiet Docker attēlu
+# Build Docker image
 docker build -t twitchminert-gui .
 
-# Palaidiet konteineri
+# Run container
 docker run -p 5000:5000 twitchminert-gui
 ```
 
----
+## ⚙️ Configuration
 
-## ⚙️ Konfigurācija
+### Environment Variables
 
-### Vides mainīgie
-
-Izveidojiet `.env` failu projekta saknes direktorijā ar šādiem mainīgajiem:
+Create a `.env` file in the project root directory with the following variables:
 
 ```env
 # Twitch API
-TWITCH_CLIENT_ID=jūsu-klienta-id
-TWITCH_CLIENT_SECRET=jūsu-klienta-noslēpums
+TWITCH_CLIENT_ID=your-client-id
+TWITCH_CLIENT_SECRET=your-client-secret
 TWITCH_REDIRECT_URI=http://localhost:5000/callback
 
 # Flask
 FLASK_ENV=production
 FLASK_DEBUG=False
-SECRET_KEY=jūsu-slepens-atslega
+SECRET_KEY=your-secret-key
 
-# Datu bāze
+# Database
 DATABASE_URL=sqlite:///twitchminert.db
 
-# Paziņojumi (opcija)
-TELEGRAM_BOT_TOKEN=jūsu-bota-pilnvara
-DISCORD_WEBHOOK_URL=jūsu-discord-webhook
+# Notifications (optional)
+TELEGRAM_BOT_TOKEN=your-bot-token
+DISCORD_WEBHOOK_URL=your-discord-webhook
 ```
 
-### OAuth Reģistrācija
+### OAuth Registration
 
-1. Dodieties uz [Twitch Developer Console](https://dev.twitch.tv/console/apps)
-2. Izveidojiet jaunu lietojumprogrammu
-3. Nokopējiet **Client ID** un **Client Secret**
-4. Ievietojiet `.env` failā
+1. Go to [Twitch Developer Console](https://dev.twitch.tv/console/apps)
+2. Create a new application
+3. Copy **Client ID** and **Client Secret**
+4. Paste into `.env` file
 
----
+## 🚀 Getting Started
 
-## 🚀 Sākšana
-
-### Palaist caur termināli
+### Run via Terminal
 
 ```bash
-# Aktivizējiet virtuālo vidi
+# Activate virtual environment
 venv\Scripts\activate  # Windows
 
-# Palaidiet lietojumprogrammu
+# Run the application
 python run.py
 
-# Pārlūkā atvērt
+# Open in browser
 http://localhost:5000
 ```
 
-### Atrašanās vieta
+### Access Points
 
-- **Vadības panelis**: http://localhost:5000/
-- **Iestatījumi**: http://localhost:5000/settings
-- **Žurnāls**: http://localhost:5000/logs
-- **API dokumentācija**: http://localhost:5000/api/docs
+- **Dashboard**: [http://localhost:5000/](http://localhost:5000/)
+- **Settings**: [http://localhost:5000/settings](http://localhost:5000/settings)
+- **Logs**: [http://localhost:5000/logs](http://localhost:5000/logs)
+- **API Documentation**: [http://localhost:5000/api/docs](http://localhost:5000/api/docs)
 
----
-
-## 📁 Projekta Struktūra
+## 📁 Project Structure
 
 ```
 Twitchminert-GUI/
-├── core/                    # Galvenās modulis
+├── core/                    # Core modules
 │   ├── __init__.py
-│   ├── auth.py             # Twitch OAuth autentifikācija
-│   ├── drops.py            # Drops ieguves modulis
-│   ├── points.py           # Kanāla punktu modulis
-│   ├── scheduler.py        # Uzdevumu plānotājs
-│   └── twitch_client.py    # Twitch API klients
-├── web/                     # Web interfeiss
+│   ├── auth.py              # Twitch OAuth authentication
+│   ├── drops.py             # Drops mining module
+│   ├── points.py            # Channel points module
+│   ├── scheduler.py         # Task scheduler
+│   └── twitch_client.py     # Twitch API client
+├── web/                     # Web interface
 │   ├── __init__.py
-│   ├── app.py              # Flask lietojumprogramma
-│   ├── routes.py           # API maršruti
+│   ├── app.py               # Flask application
+│   ├── routes.py            # API routes
 │   ├── templates/
-│   │   └── index.html      # Galvenā lapā
+│   │   └── index.html       # Main page
 │   └── static/
-│       ├── style.css       # Stili
-│       └── script.js       # Skriptošana
-├── .env.example            # Vides maiņības paraugs
-├── requirements.txt        # Python atkarības
-├── run.py                  # Ieejas punkts
-├── config.py               # Konfigurācijas klasės
-├── build_exe.py            # Windows EXE veidošana
-└── README.md               # Šī dokumentācija
+│       ├── style.css        # Styles
+│       └── script.js        # Scripts
+├── .env.example             # Environment variables example
+├── requirements.txt         # Python dependencies
+├── run.py                   # Entry point
+├── config.py                # Configuration classes
+├── build_exe.py             # Windows EXE builder
+└── README.md                # This documentation
 ```
 
----
-
-## 🔌 API Galapunkti
+## 🔌 API Endpoints
 
 ### Status
-```bash
+
+```
 GET /api/status
-# Atgriež maineris status
+# Returns miner status
 ```
 
-### Konfigurācija
-```bash
+### Configuration
+
+```
 GET /api/config
-# Iegūst pašreizējos iestatījumus
-
+# Get current settings
 POST /api/config
-# Saglabā jaunus iestatījumus
+# Save new settings
 ```
 
-### Strīmeri
-```bash
+### Streamers
+
+```
 GET /api/streamers
-# Saraksts ar visiem strīmēriem
-
+# List all streamers
 POST /api/streamers
-# Pievieno jaunu strīmeri
+# Add new streamer
 ```
 
-### Vadības
-```bash
+### Control
+
+```
 POST /api/start
-# Palaist maineris
-
+# Start miner
 POST /api/stop
-# Apturēt maineris
+# Stop miner
 ```
 
----
+## 🛠️ Development
 
-## 🛠️ Attīstība
-
-### Vietējā iestatīšana
+### Local Setup
 
 ```bash
-# Instalējiet attīstības atkarības
+# Install development dependencies
 pip install -r requirements-dev.txt
 
-# Palaidiet testus
+# Run tests
 python -m pytest
 
-# Palaist linter
+# Run linter
 flake8 . --count --select=E9,F63,F7,F82 --show-source
 ```
 
----
+## 📜 License
 
-## 📜 Licenzija
+MIT License - See [LICENSE](LICENSE) file for details.
 
-MIT License - Skatiet [LICENSE](LICENSE) failu detalizētai informācijai.
+## 🤝 Contributing
 
----
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-## 🤝 Ieguldījums
+## ⚠️ Disclaimer
 
-Ieguldījumi ir svārsti! Skatiet [CONTRIBUTING.md](CONTRIBUTING.md) norādījumi.
+- This application is independent of Twitch Inc.
+- You are responsible for complying with Twitch Terms of Service
+- Authors are not responsible for any issues or ban risks
 
----
+## 📞 Support
 
-## ⚠️ Atrunas
+Have questions or issues? Open a [GitHub Issue](https://github.com/DeoxiD/Twitchminert-GUI/issues)
 
-- Šī lietojumprogramma ir neatkarīga no Twitch Inc.
-- Jūs esat atbildīgs par Twitch Pakalpojuma Noteikumu ievērošanu
-- Autori nav atbildīgi par jebkādiem problēmām vai ban riskiem
-
----
-
-## 📞 Atbalsts
-
-Jautājumi vai problēmas? Atvērt [GitHub Issues](https://github.com/DeoxiD/Twitchminert-GUI/issues)
-
----
-
-**Pēdējais atjauninājums**: 2026. gada janvāris
+**Last Updated**: January 2026
