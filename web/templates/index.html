@@ -5,77 +5,196 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitchminert-GUI - Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <div class="navbar-brand">
-                <h1>Twitchminert-GUI</h1>
+    <div class="app-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-stream"></i>
+                    <span>Twitchminert</span>
+                </div>
+                <button class="sidebar-toggle" id="toggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-            <ul class="nav-links">
-                <li><a href="/" class="active">Dashboard</a></li>
-                <li><a href="/settings">Settings</a></li>
-                <li><a href="/logs">Logs</a></li>
-                <li><a href="/about">About</a></li>
-            </ul>
-        </nav>
+            
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-link active" data-icon="fa-home">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/settings" class="nav-link" data-icon="fa-cog">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="/logs" class="nav-link" data-icon="fa-file-alt">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Logs</span>
+                </a>
+                <a href="#" class="nav-link" data-icon="fa-chart-line">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Statistics</span>
+                </a>
+            </nav>
 
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar">U</div>
+                    <div class="user-details">
+                        <div class="user-name">User</div>
+                        <div class="user-status online">Online</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
         <main class="main-content">
-            <div class="header">
-                <h2>Twitch Miner Dashboard</h2>
-                <p id="status-text">Loading status...</p>
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title">Dashboard</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <button class="icon-btn" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <button class="icon-btn" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
             </div>
 
-            <div class="grid">
-                <div class="card">
-                    <div class="card-header">Drops Status</div>
-                    <div class="card-body">
-                        <div class="stat">
-                            <span class="label">Status:</span>
-                            <span class="value" id="drops-status">Offline</span>
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Status Overview Section -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2>Status Overview</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-sm btn-outline" id="refreshStatus">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
                         </div>
-                        <div class="stat">
-                            <span class="label">Progress:</span>
-                            <div class="progress-bar">
-                                <div class="progress" id="drops-progress" style="width: 0%"></div>
+                    </div>
+
+                    <!-- Status Cards Grid -->
+                    <div class="cards-grid">
+                        <!-- Drops Mining Status Card -->
+                        <div class="card status-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-gift"></i> Drops Mining
+                                </h3>
+                                <span class="status-badge badge-warning">Inactive</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="stat-item">
+                                    <span class="stat-label">Status:</span>
+                                    <span class="stat-value" id="drops-status">Offline</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Active Channel:</span>
+                                    <span class="stat-value">—</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Drops Earned:</span>
+                                    <span class="stat-value highlight">12</span>
+                                </div>
+                                <div class="progress-section">
+                                    <div class="progress-label">Today's Progress</div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 45%"></div>
+                                    </div>
+                                    <div class="progress-text">45% Complete</div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-sm btn-primary" onclick="startMiner()">Start</button>
+                                <button class="btn btn-sm btn-outline" onclick="stopMiner()">Stop</button>
+                            </div>
+                        </div>
+
+                        <!-- Channel Points Status Card -->
+                        <div class="card status-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-coins"></i> Channel Points
+                                </h3>
+                                <span class="status-badge badge-success">Active</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="stat-item">
+                                    <span class="stat-label">Status:</span>
+                                    <span class="stat-value" id="points-status">Active</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Watching Channel:</span>
+                                    <span class="stat-value">twitchdev</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Points Earned:</span>
+                                    <span class="stat-value highlight">5,240</span>
+                                </div>
+                                <div class="progress-section">
+                                    <div class="progress-label">Session Time</div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%"></div>
+                                    </div>
+                                    <div class="progress-text">3.9 / 6 hours</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System Status Card -->
+                        <div class="card status-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-server"></i> System Status
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="stat-item">
+                                    <span class="stat-label">Version:</span>
+                                    <span class="stat-value">0.0.1-alpha</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Uptime:</span>
+                                    <span class="stat-value">12h 34m</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Memory Usage:</span>
+                                    <span class="stat-value">245 MB</span>
+                                </div>
+                                <div class="progress-section">
+                                    <div class="progress-label">CPU Usage</div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 32%"></div>
+                                    </div>
+                                    <div class="progress-text">32%</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <div class="card">
-                    <div class="card-header">Channel Points</div>
-                    <div class="card-body">
-                        <div class="stat">
-                            <span class="label">Status:</span>
-                            <span class="value" id="points-status">Offline</span>
-                        </div>
-                        <div class="stat">
-                            <span class="label">Points:</span>
-                            <span class="value" id="points-earned">0</span>
+                <!-- Active Channels Section -->
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2>Active Channels</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-sm btn-primary" onclick="addChannel()">
+                                <i class="fas fa-plus"></i> Add Channel
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header">System Status</div>
-                    <div class="card-body">
-                        <div class="stat">
-                            <span class="label">Version:</span>
-                            <span class="value">0.0.1-alpha</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="startMiner()">Start</button>
-                <button class="btn btn-secondary" onclick="stopMiner()">Stop</button>
-                <button class="btn btn-secondary" onclick="openSettings()">Settings</button>
-            </div>
-        </main>
-    </div>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+                    <div cla
