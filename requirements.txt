@@ -1,9 +1,47 @@
+# Core Flask Dependencies
 Flask==2.3.3
 Flask-CORS==4.0.0
-Python-dotenv==1.0.0
+Flask-SQLAlchemy==3.0.5
+Flask-JWT-Extended==4.4.4
+
+# Database
+SQLAlchemy==2.0.20
+Flask-Migrate==4.0.5
+
+# Async/Concurrency
+aiohttp==3.8.5
+asyncio-contextmanager==1.0.0
+
+# Twitch/API
 requests==2.31.0
+PyJWT==2.8.1
+twitchio==2.7.1
+
+# Data Processing
+python-dotenv==1.0.0
+python-dateutil==2.8.2
+
+# Utilities
 Werkzeug==2.3.7
-jinja2==3.1.2
 click==8.1.7
 colorama==0.4.6
-python-dateutil==2.8.2
+jinja2==3.1.2
+
+# Validation/Security
+passlib==1.7.4
+validators==0.22.0
+
+# Logging
+python-json-logger==2.0.7
+
+# WebSocket
+python-socketio==5.9.0
+python-engineio==4.7.1
+
+# Development (Optional)
+pytest==7.4.2
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+black==23.10.0
+flake8==6.1.0
+isort==5.12.0
