@@ -10,8 +10,7 @@ Flask-Migrate==4.0.5
 
 # Async/Concurrency
 aiohttp==3.8.5
-asyncio-contextmanager==1.0.0
-
+asyncio-contextmanager==1.0.1
 # Twitch/API
 requests==2.31.0
 PyJWT==2.8.1
