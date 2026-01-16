@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs - Twitchminert GUI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #333;
+            margin: 0;
+        }
+        .back-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        .logs-container {
+            background: #f5f5f5;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+        .log-entry {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 4px solid #667eea;
+            background: white;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #333;
+        }
+        .log-entry.error {
+            border-left-color: #f44336;
+            background-color: #ffebee;
+        }
+        .log-entry.warning {
+            border-left-color: #ff9800;
+            background-color: #fff3e0;
+        }
+        .log-entry.success {
+            border-left-color: #4caf50;
+            background-color: #f1f8e9;
+        }
+        .timestamp {
+            color: #999;
+            margin-right: 10px;
+        }
+        .log-message {
+            display: inline;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        .filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .filter label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+        .filter input[type="checkbox"] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Application Logs</h1>
+            <a href="/" class="back-link">← Back to Dashboard</a>
+        </div>
+        
+        <div class="controls">
+            <button class="btn-primary" onclick="clearLogs()">Clear Logs</button>
+            <button class="btn-secondary" onclick="refreshLogs()">Refresh</button>
+            <button class="btn-secondary" onclick="downloadLogs()">Download</button>
+        </div>
+        
+        <div class="filter">
+            <label>
+                <input type="checkbox" id="filterError" checked> Errors
+            </label>
+            <label>
+                <input type="checkbox" id="filterWarning" checked> Warnings
+            </label>
+            <label>
+                <input type="checkbox" id="filterInfo" checked> Info
+            </label>
+        </div>
+        
+        <div class="logs-container" id="logsContainer">
+            <div class="empty-state">No logs to display. Start the application to see logs here.</div>
+        </div>
+    </div>
+    
+    <script>
+        const logsContainer = document.getElementById('logsContainer');
+        const mockLogs = [
+            { timestamp: '2024-01-15 10:32:45', level: 'info', message: 'Application started successfully' },
+            { timestamp: '2024-01-15 10:33:12', level: 'info', message: 'Connected to Twitch API' },
+            { timestamp: '2024-01-15 10:34:05', level: 'warning', message: 'High memory usage detected' },
+            { timestamp: '2024-01-15 10:35:22', level: 'success', message: 'Mining process started' },
+            { timestamp: '2024-01-15 10:36:10', level: 'error', message: 'Failed to fetch stream data' },
+        ];
+        
+        function displayLogs() {
+            logsContainer.innerHTML = mockLogs.map(log => 
+                `<div class="log-entry ${log.level}">
+                    <span class="timestamp">[${log.timestamp}]</span>
+                    <span class="log-message">${log.message}</span>
+                </div>`
+            ).join('');
+        }
+        
+        function clearLogs() {
+            fetch('/api/logs/clear', { method: 'POST' })
+                .then(() => displayLogs())
+                .catch(err => alert('Error clearing logs'));
+        }
+        
+        function refreshLogs() {
+            fetch('/api/logs')
+                .then(r => r.json())
+                .then(data => {
+                    logsContainer.innerHTML = data.map(log => 
+                        `<div class="log-entry ${log.level}">
+                            <span class="timestamp">[${log.timestamp}]</span>
+                            <span class="log-message">${log.message}</span>
+                        </div>`
+                    ).join('');
+                })
+                .catch(() => displayLogs());
+        }
+        
+        function downloadLogs() {
+            fetch('/api/logs')
+                .then(r => r.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'logs.txt';
+                    a.click();
+                })
+                .catch(() => alert('Error downloading logs'));
+        }
+        
+        // Initialize
+        displayLogs();
+    </script>
+</body>
+</html>
