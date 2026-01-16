@@ -1,166 +1,116 @@
 # 🪟 Twitchminert-GUI - Windows Setup & EXE Build Guide
 
-## ✅ Quick Start - Jau Sagatavots EXE
+## ✅ Quick Start - Pre-Built EXE
 
-Ja vēlies tikai PALAIST aplikāciju bez izstrādes:
+If you just want to RUN the application without development:
 
-1. Lejupielādi **Twitchminert-GUI.exe** no [Releases](https://github.com/DeoxiD/Twitchminert-GUI/releases)
-2. Dubultklikšķis uz .exe faila
-3. Aplikācija atveras automātiski!
+1. Download **Twitchminert-GUI.exe** from [Releases](https://github.com/DeoxiD/Twitchminert-GUI/releases)
+2. Double-click the .exe file
+3. Application starts automatically!
 
-## 📋 Prasības (ja vēli pats veidot EXE)
+## 📋 Requirements (if you want to build EXE yourself)
 
-- **Python 3.8+** ([lejupielāde](https://www.python.org/downloads/))
-- **pip** (parasti nāk ar Python)
+- **Python 3.8+** ([download](https://www.python.org/downloads/))
+- **pip** (usually comes with Python)
 - **Windows OS** (7, 8, 10, 11)
-- **4GB RAM** (ieteicams)
-- **500MB brīvā vieta**
+- **4GB RAM** (recommended)
+- **500MB free space**
 
-## 🚀 Instalācija un EXE Veidošana
+## 🚀 Installation and EXE Building
 
-### 1. Lejupielāde
+### 1. Download
 
 ```bash
 git clone https://github.com/DeoxiD/Twitchminert-GUI.git
 cd Twitchminert-GUI
 ```
 
-Vai lejupielādi ZIP failu un izpaki to.
+Or download ZIP file and extract it.
 
-### 2. Piezīme - Python
+### 2. Check Python
 
 ```bash
 python --version
 ```
 
-Jāparāda **Python 3.8+**. Ja nē, instalē no [python.org](https://www.python.org/downloads/)
+Should show **Python 3.8+**. If not, install from [python.org](https://www.python.org/downloads/)
 
-### 3. Virtuālā Vide (IETEICAMS)
+### 3. Virtual Environment (RECOMMENDED)
 
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
 
-### 4. Instalē Atkarības
+### 4. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 pip install pyinstaller
 ```
 
-### 5. Veidē EXE
+### 5. Build EXE
 
 ```bash
 python build_exe.py
 ```
 
-**Gaidi ~3-5 minūtes** (PyInstaller veido standalone exe)
+**Wait ~3-5 minutes** (PyInstaller builds standalone exe)
 
-### 6. Palaisk EXE
+### 6. Run EXE
 
 ```bash
 .\dist\Twitchminert-GUI.exe
 ```
 
-Vai atvērt `dist` mapi un dubultklikšķis uz `Twitchminert-GUI.exe`
+Or open `dist` folder and double-click `Twitchminert-GUI.exe`
 
-## ⚙️ Konfigurācija
+## ⚙️ Configuration After Installation
 
-### Pirmajā Palaišanā:
+After starting the application:
 
-1. EXE izveidos `.env` failu
-2. Atvērt `.env` ar Notepad un ievadīt:
+1. Open http://localhost:5000 in your browser
+2. Follow the configuration wizard
+3. Enter your Twitch credentials
+4. Select your preferred betting strategy
+5. Start mining!
 
-```env
-FLASK_ENV=production
-FLASK_DEBUG=False
-SECRET_KEY=your-secret-key-here
-TWITCH_CLIENT_ID=your-client-id
-TWITCH_CLIENT_SECRET=your-client-secret
-```
+## 🔧 Troubleshooting
 
-3. Pārstartēt aplikāciju
+### Python not found
 
-## 🔧 Problēmu Atrisināšana
+- Install Python 3.8+ from [python.org](https://www.python.org/downloads/)
+- Make sure to check "Add Python to PATH" during installation
+- Restart your computer after installation
 
-### "python: command not found"
+### EXE fails to start
 
-Python nav PATH. Instalē no [python.org](https://www.python.org/downloads/) un atzīmē "Add Python to PATH"
+- Try running as Administrator
+- Make sure all dependencies are installed: `pip install -r requirements.txt`
+- Check Windows Defender didn't block the file (add to exceptions)
 
-### "ModuleNotFoundError"
+### Port 5000 is already in use
 
-Instalē atkarības:
-```bash
-pip install -r requirements.txt
-```
+- Change the port in `config.py` line: `app.run(port=5000)` → `app.run(port=5001)`
 
-### EXE ir liels (~200MB)
+## 📝 Building from Source (Advanced)
 
-Tas ir normāli! PyInstaller iekļauj visu Python runtime.
+For developers who want to modify the code:
 
-### Antivirusy Zvēr Brīdinājums
+1. Follow steps 1-4 above
+2. Edit files in the `web/` and `core/` directories
+3. Run locally: `python run.py`
+4. Build EXE when ready: `python build_exe.py`
 
-PyInstaller EXE dažreiz uzskatās par aizdomīgu (false positive). Ja uzticies projektam, pievienot izņēmumam.
+## 📄 Notes
 
-## 📦 EXE Skaņošana
+- The EXE is standalone and doesn't require Python to be installed
+- All configuration is stored in `.env` file
+- Logs are saved in the `logs/` folder
+- Database is SQLite and stored as `twitchminert.db`
 
-### Veidot ar OpenGL Atbalstu
+## 🆘 Support
 
-```bash
-python build_exe.py --windowed
-```
+Have issues? Check [GitHub Issues](https://github.com/DeoxiD/Twitchminert-GUI/issues)
 
-### Veidot Debug Versiju
-
-```bash
-python build_exe.py --debug
-```
-
-## 🌐 Tīkla Konfigurācija
-
-Ja izmanto firewall:
-
-1. Atļaut **Twitchminert-GUI.exe** caur firewall
-2. Pormāts: **5000** (vai `FLASK_PORT` vidē)
-
-## 📝 Atkārtotas Veidošanas Pavediens
-
-Ja mainīji kodu:
-
-```bash
-# Iztīri vecus build
-rmdir /s build dist *.spec
-
-# Veidē jaunu
-python build_exe.py
-```
-
-## ✨ Ieteiktie Iestatījumi
-
-**Production Versija:**
-```env
-FLASK_ENV=production
-FLASK_DEBUG=False
-FLASK_HOST=0.0.0.0
-FLASK_PORT=5000
-```
-
-**Development Versija:**
-```env
-FLASK_ENV=development
-FLASK_DEBUG=True
-```
-
-## 🎯 Turpmākas Darbības
-
-Pēc EXE iedarbības:
-
-1. Atveri http://localhost:5000
-2. Pierakstīties (default kredenciāli)
-3. Konfigurēt Twitch kredenciālus
-4. Sākt Twitchminert migrāciju!
-
----
-
-**Nepieciešama Palīdzība?** Atvērt [Issues](https://github.com/DeoxiD/Twitchminert-GUI/issues)
+**Last Updated**: January 2026
