@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitchminert-GUI - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <h1>Twitchminert-GUI</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/" class="active">Dashboard</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/logs">Logs</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="header">
+                <h2>Twitch Miner Dashboard</h2>
+                <p id="status-text">Loading status...</p>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">Drops Status</div>
+                    <div class="card-body">
+                        <div class="stat">
+                            <span class="label">Status:</span>
+                            <span class="value" id="drops-status">Offline</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress" id="drops-progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Channel Points</div>
+                    <div class="card-body">
+                        <div class="stat">
+                            <span class="label">Status:</span>
+                            <span class="value" id="points-status">Offline</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Points:</span>
+                            <span class="value" id="points-earned">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">System Status</div>
+                    <div class="card-body">
+                        <div class="stat">
+                            <span class="label">Version:</span>
+                            <span class="value">0.0.1-alpha</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="startMiner()">Start</button>
+                <button class="btn btn-secondary" onclick="stopMiner()">Stop</button>
+                <button class="btn btn-secondary" onclick="openSettings()">Settings</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
