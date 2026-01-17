@@ -444,6 +444,6 @@ class DropsMinerManager:
         """Resume paused mining"""
         try:
                     pass
-                            except Exception as e:
-            self.logger.error(f"Resume mining error: {e}")
-            return False
+                    except Exception as e:
+        self.logger.error(f"Resume mining error: {e}")
+        return False
