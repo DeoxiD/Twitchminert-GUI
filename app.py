@@ -27,8 +27,7 @@ auth_manager = None
 
 def create_app(config_name='development'):
     """Application factory function"""
-    app = Flask(__name__, template_folder='templates', static_folder='static')
-    
+    app = Flask(__name__, template_folder='web/templates', static_folder='web/static')    
     # Load configuration
     app.config.from_object(config.get(config_name, config['default']))
     
