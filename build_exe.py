@@ -24,7 +24,7 @@ def build_exe():
         '--windowed',
         '--icon=NONE',
         f'--distpath={project_root / "dist"}',
-        f'--buildpath={project_root / "build"}',
+        f'--workpath={project_root / "build"}',
         f'--specpath={project_root / "build"}',
         '--add-data=.env.example:.',
         '--add-data=requirements.txt:.',
