@@ -443,3 +443,4 @@ class DropsMinerManager:
     async def resume_mining(self) -> bool:
         """Resume paused mining"""
         try:
+                    pass
