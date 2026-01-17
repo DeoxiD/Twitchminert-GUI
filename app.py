@@ -58,11 +58,11 @@ def create_app(config_name='development'):
     
     # Create database tables
     with app.app_context():
-    try:
-        db.create_all()
-        logger.info("Database tables created successfully")
-    except Exception as e:
-        logger.warning(f"Database tables may already exist: {e}")    # Register routes   
+        try:
+                db.create_all()
+                logger.info("Database tables created successfully")
+        except Exception as e:
+                logger.warning(f"Database tables may already exist: {e}")    # Register routes   
     # Register routes
     register_api_routes(app)
     register_auth_routes(app)
