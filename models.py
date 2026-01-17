@@ -299,4 +299,5 @@ class MiningSession(db.Model):
             'success_rate': self.success_rate,
             'duration_seconds': self.duration_seconds,
             'started_at': self.started_at.isoformat(),
+                    }
             
