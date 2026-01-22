@@ -11,6 +11,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 import logging
+from functools import wraps
 
 # Import local modules
 from config import config
@@ -23,6 +24,15 @@ logger = logging.getLogger(__name__)
 
 # Global auth manager instance
 auth_manager = None
+
+def require_json(f):
+    """Decorator to validate JSON content type"""
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not request.is_json:
+            return jsonify({'status': 'error', 'message': 'Content-Type must be application/json'}), 400
+        return f(*args, **kwargs)
+    return decorated
 
 
 def create_app(config_name='development'):
