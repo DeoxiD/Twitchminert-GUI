@@ -14,6 +14,8 @@ from enum import Enum
 from pathlib import Path
 import aiohttp
 
+from database_operations import DropOps, CampaignOps
+
 # Configure logging
 logger = logging.getLogger(__name__)
 
