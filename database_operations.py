@@ -16,6 +16,7 @@ from models import (
 )
 
 logger = logging.getLogger(__name__)
+from database_operations_ext import DropOps, CampaignOps
 
 
 # ==================== Configuration Operations ====================
